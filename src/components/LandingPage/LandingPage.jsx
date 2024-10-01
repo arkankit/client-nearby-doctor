@@ -2,21 +2,17 @@ import React, { useEffect, useState } from "react";
 import "./../Signup/Signup.css";
 import "./LandingPage.css";
 import { Box, CircularProgress } from "@mui/material";
-import { TextField } from "@mui/material";
-import { Typography } from "@mui/material";
-import { Button } from "@mui/material";
-import NearbyLogo from "../NearbyLogo";
 import GoogleMapsComp from "./GoogleMapsComp";
 import LandingHeader from "./LandingHeader";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DoctorSearchForm from "./DoctorSearchForm/DoctorSearchForm";
+import PlacesSearch from "./PlacesSearch/PlacesSearch";
 
 function LandingPage() {
   const [userName, setUserName] = useState("");
   const [userAddress, setUserAddress] = useState(null);
   const [logout, setLogout] = useState(false);
-  const [searchDisabled, setSearchDisabled] = useState(true);
 
   const navigate = useNavigate();
 
@@ -114,47 +110,7 @@ function LandingPage() {
             className="landing-container"
             sx={{ "& > :not(style)": { mx: "auto" } }}
           >
-            <Box id="landing-form-box">
-              <Box
-                className="noto-sans-text landing-headers"
-                sx={{ "& > :not(style)": { my: 2, mx: "auto", width: "35ch" } }}
-              >
-                <NearbyLogo wth="8em" mb="10em" />
-                <Typography className="noto-sans-text">
-                  Enter your address below
-                </Typography>
-              </Box>
-
-              <Box
-                className="noto-sans-text landing-form"
-                sx={{ "& > :not(style)": { my: 2 } }}
-                component="form"
-                noValidate
-                autoComplete="off"
-              >
-                <TextField
-                  id="outlined-basic"
-                  label="Address"
-                  variant="outlined"
-                  value={
-                    userAddress !== null && userAddress.readableAddress !== null
-                      ? userAddress.readableAddress
-                      : "No presaved address found"
-                  }
-                  required
-                  onChange={() => {
-                    setSearchDisabled(false);
-                  }}
-                />
-                <Button
-                  className="button"
-                  variant="contained"
-                  disabled={searchDisabled}
-                >
-                  Search
-                </Button>
-              </Box>
-            </Box>
+            <PlacesSearch />
             <Box id="landing-map-box">
               <GoogleMapsComp
                 addressfetcher={saveUserAddress}

@@ -147,6 +147,7 @@ function DoctorSearchForm({ addressOfUser }) {
     <div>
       <Box
         className="signup-box slide-in-fade"
+        style={{marginTop : "5em"}}
         component="form"
         sx={{ "& > :not(style)": { my: 2, mx: "auto", width: "35ch" } }}
         noValidate
