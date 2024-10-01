@@ -1,0 +1,44 @@
+.signup-box {
+  display: flex;
+  flex-direction: column;
+  margin: 0 auto;
+  width: 50%;
+}
+
+ /* <uniquifier>: Use a unique and descriptive class name
+  <weight>: Use a value from 100 to 900 */
+
+.noto-sans-text {
+  display: flex;
+  justify-content: center;
+  font-family: "Noto Sans", sans-serif;
+  font-optical-sizing: auto;
+  font-weight: 700;
+  color: darkslategray ;
+  font-style: normal;
+  font-variation-settings:
+    "wdth" 100;
+}
+
+.link-spacing{
+  margin-left: 0.6em;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+.button {
+  background-color: rgb(67, 115, 115) !important;
+}
+
+h1{
+  width: max-content !important;
+}
+
+#already-registered{
+  color: green !important;
+}
+
+#registered{
+  color: green !important;
+}
+

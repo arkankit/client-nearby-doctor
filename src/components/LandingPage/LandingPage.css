@@ -1,0 +1,35 @@
+#landing-form-box{
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+}
+#landing-map-box{
+    display: flex;
+    flex-direction: column;
+    margin: 2em auto;
+    width: 45rem;
+}
+#logout-animate{
+    display: flex;
+    justify-content: center;
+    padding: 20em;
+}
+.landing-container{
+    display: flex;
+}
+.landing-headers{
+    display: flex !important;
+    flex-direction: column;
+    margin: 2em auto !important;
+    justify-content: center;
+}
+
+.landing-form{
+    flex-direction: column;
+    margin: auto;
+}
+
+.base-container{
+    display: flex;
+    flex-direction: column;
+}

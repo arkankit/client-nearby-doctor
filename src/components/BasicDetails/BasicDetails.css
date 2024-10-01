@@ -1,0 +1,19 @@
+@keyframes slideInFromLeftAndFade {
+    from {
+        transform: translateX(-30%); /* Start from the left */
+        opacity: 0; /* Start fully transparent */
+    }
+    to {
+        transform: translateX(0); /* End at the center */
+        opacity: 1; /* End fully opaque */
+    }
+}
+
+/* Using above keyframe in the class below */
+.slide-in-fade {
+    animation: slideInFromLeftAndFade 0.4s ease-out;
+}
+
+#error-message{
+    color: red !important;
+}
