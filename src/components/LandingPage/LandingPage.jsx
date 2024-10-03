@@ -45,7 +45,9 @@ function LandingPage() {
       const response = await axios.get("http://localhost:3000/getDetails", {
         withCredentials: true,
       });
-      setUserName(response.data.fname);
+      if (userName === "") {
+        setUserName(response.data.fname);
+      }
       if (response.data.user_address !== null) {
         const {
           userlat: latitude,
@@ -110,7 +112,7 @@ function LandingPage() {
             className="landing-container"
             sx={{ "& > :not(style)": { mx: "auto" } }}
           >
-            <PlacesSearch />
+            <PlacesSearch setUpdatedAddress={getUserInfo} />
             <Box id="landing-map-box">
               <GoogleMapsComp
                 addressfetcher={saveUserAddress}

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import "./../Signup/Signup.css";
 import "../BasicDetails/BasicDetails.css";
 import "./Login.css"
@@ -21,6 +21,7 @@ function Login() {
   const [loginSuccess, setLoginSuccess] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
+  const buttonRef = useRef(null);
 
   async function logoutIfActive() {
     try {
@@ -46,7 +47,19 @@ function Login() {
 
   useEffect(() => {
     logoutIfActive();
-  },[]);
+
+    function handleKeyDown(event){
+      if(event.key === "Enter"){
+        buttonRef.current.click();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown); // adding event listner (on mount) to check for enter button press
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown); // cleanup after unmount
+    };
+  },[]); // empty dependency so as to execute only on mount
 
   const navigate = useNavigate();
 
@@ -130,7 +143,7 @@ function Login() {
         Welcome back!
       </Typography>}
       {loginSuccess && <CircularProgress />}
-      <Button className="button"variant="contained" onClick={handleLogin}>Login</Button>
+      <Button className="button"variant="contained" ref={buttonRef} onClick={handleLogin}>Login</Button>
     </Box>
   );
 }

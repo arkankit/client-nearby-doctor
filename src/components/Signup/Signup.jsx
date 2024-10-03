@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import "./Signup.css";
 import "../BasicDetails/BasicDetails.css";
 
@@ -22,6 +22,7 @@ function Signup() {
   const [alreadyRegistered, setAlreadyRegistered] = useState(false);
   const [registerDone, setRegisterDone] = useState(false);
   const [enteredPassword, setEnteredPassword] = useState("");
+  const buttonRef = useRef(null);
 
   async function logoutIfActive() {
     try {
@@ -47,6 +48,19 @@ function Signup() {
 
   useEffect(() => {
     logoutIfActive();
+
+    function handleKeyDown(event){
+      if(event.key === "Enter"){
+        buttonRef.current.click();
+      }
+    }
+
+    document.addEventListener("keydown", handleKeyDown); // adding event listner (on mount) to check for enter button press
+
+    return () => {
+      document.removeEventListener("keydown", handleKeyDown); // cleanup after unmount
+    };
+
   },[]);
 
   const navigate = useNavigate();
@@ -135,7 +149,7 @@ function Signup() {
         Getting things done...
       </Typography>}
       {registerDone && <CircularProgress />}
-      <Button onClick={handleSignup} disableRipple className="button"variant="contained">Signup</Button>
+      <Button onClick={handleSignup} disableRipple className="button" ref={buttonRef} variant="contained">Signup</Button>
     </Box>
   );
 }
