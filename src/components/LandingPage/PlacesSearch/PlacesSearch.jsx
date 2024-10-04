@@ -7,13 +7,14 @@ import getLatLng from "../Utility/getLatLng.jsx";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 
-function PlacesSearch({ setUpdatedAddress }) {
+function PlacesSearch({ setUpdatedAddress, userAddressdetails }) {
   const [resultSuggestions, setResultSuggestions] = useState([]);
   const [input, setInput] = useState("");
   const debouncedInput = useDebounce(input, 2000); // sending 2000 ms delay i.e. if user stops typing for 2 second then make places api call
   const [resultsFetched, setResultsFetched] = useState(false);
   const [userUpdatedLocation, setUserUpdatedLocation] = useState(null);
   const [buttonDisable, setButtonDisable] = useState(false);
+  const [textLabel, setTextLabel] = useState("Search for an address*");
 
   async function getUserInfo() {
     // calling this function to initially show the users stored addresses after they login
@@ -24,6 +25,7 @@ function PlacesSearch({ setUpdatedAddress }) {
       if (response.data.user_address !== null) {
         setInput(response.data.user_address);
         setButtonDisable(true);
+        setTextLabel("");
         setResultsFetched(true);
       }
     } catch (err) {
@@ -32,8 +34,8 @@ function PlacesSearch({ setUpdatedAddress }) {
   }
 
   useEffect(() => {
-    getUserInfo(); // calling on mount
-  }, []);
+    getUserInfo(); // calling on mount or when parent sends an updated address
+  }, [userAddressdetails]);
 
   useEffect(() => {
     if (debouncedInput && !resultsFetched) {
@@ -66,6 +68,7 @@ function PlacesSearch({ setUpdatedAddress }) {
 
   function handleEditClick() {
     setButtonDisable(false);
+    setTextLabel("Search for an address*");
     setResultsFetched(false);
     setInput("");
   }
@@ -107,6 +110,7 @@ function PlacesSearch({ setUpdatedAddress }) {
     }
 
     setButtonDisable(true);
+    setTextLabel("");
     setUpdatedAddress(); // trigger getUserInfo of the landing page parent component to show the user thier updated address
   }
 
@@ -122,10 +126,15 @@ function PlacesSearch({ setUpdatedAddress }) {
     >
       <Box
         className="noto-sans-text landing-headers"
+        style={{ margin: "0px" }}
         sx={{ "& > :not(style)": { my: 2, mx: "auto", width: "35ch" } }}
       >
-        <NearbyLogo wth="8em" mb="10em" />
-        <Typography variant="h5" className="noto-sans-text">
+        <NearbyLogo wth="8em" mb="8em" />
+        <Typography
+          style={{ width: "fit-content" }}
+          variant="h5"
+          className="noto-sans-text"
+        >
           Want to set another address?
         </Typography>
         <Typography className="noto-sans-text">
@@ -137,11 +146,16 @@ function PlacesSearch({ setUpdatedAddress }) {
         className="noto-sans-text landing-form"
         sx={{ "& > :not(style)": { my: 2 } }}
       >
-        <Typography variant="body2" className="noto-sans-text">
+        <Typography
+          style={{ textAlign: "center", opacity: "50%" }}
+          variant="body2"
+          className="noto-sans-text"
+        >
           *We have set your current location as per your previously entered
           address, you can change it by clicking on the pencil icon below
         </Typography>
         <IconButton
+          style={{ width: "fit-content", margin: "0 auto" }}
           onClick={handleEditClick}
           aria-label="edit"
         >
@@ -149,50 +163,51 @@ function PlacesSearch({ setUpdatedAddress }) {
         </IconButton>
         <TextField
           id="outlined-basic"
-          label="Search for an address*"
+          label={textLabel}
           variant="outlined"
           value={input}
           onChange={handleInputChange}
           fullWidth
           disabled={buttonDisable}
+          style={{ marginBottom: "0px" }} // so that the below ul appears to be touching the search field
         />
-        <ul
-          style={{
-            listStyleType: "none", // to remove default list styling
-            padding: 0,
-            margin: 0,
-            position: "absolute",
-            top: "100%",
-            left: 0,
-            right: 0,
-            backgroundColor: "white",
-            border: "1px solid #ccc",
-            borderRadius: "4px",
-            maxHeight: "200px",
-            overflow: "auto",
-            zIndex: 1000,
-          }}
-        >
-          {resultSuggestions.map((suggestion) => (
-            <li
-              key={suggestion.place_id}
-              onClick={() => handleSuggestionClick(suggestion)}
-              style={{
-                padding: "10px",
-                cursor: "pointer",
-                transition: "background-color 0.2s",
-              }}
-              onMouseEnter={(event) =>
-                (event.currentTarget.style.backgroundColor = "#f0f0f0")
-              }
-              onMouseLeave={(event) =>
-                (event.currentTarget.style.backgroundColor = "transparent")
-              }
-            >
-              {suggestion.description}
-            </li>
-          ))}
-        </ul>
+        {!resultsFetched && ( // show ul only when edit button is clicked
+          <ul
+            style={{
+              listStyleType: "none", // to remove default list styling
+              padding: 0,
+              margin: 0,
+              position: "static",
+              backgroundColor: "white",
+              border: "1px solid #ccc",
+              borderRadius: "4px",
+              maxHeight: "200px",
+              overflowY: "scroll", // only set scrolling in Y axis i.e top to bottom or vice versa
+              scrollbarWidth: "none", // to remove the scrollbar
+              zIndex: 1000,
+            }}
+          >
+            {resultSuggestions.map((suggestion) => (
+              <li
+                key={suggestion.place_id}
+                onClick={() => handleSuggestionClick(suggestion)}
+                style={{
+                  padding: "10px",
+                  cursor: "pointer",
+                  transition: "background-color 0.2s",
+                }}
+                onMouseEnter={(event) =>
+                  (event.currentTarget.style.backgroundColor = "#f0f0f0")
+                }
+                onMouseLeave={(event) =>
+                  (event.currentTarget.style.backgroundColor = "transparent")
+                }
+              >
+                {suggestion.description}
+              </li>
+            ))}
+          </ul>
+        )}
 
         {resultsFetched && (
           <Button

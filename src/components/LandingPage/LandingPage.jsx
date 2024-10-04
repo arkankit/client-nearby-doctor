@@ -112,8 +112,11 @@ function LandingPage() {
             className="landing-container"
             sx={{ "& > :not(style)": { mx: "auto" } }}
           >
-            <PlacesSearch setUpdatedAddress={getUserInfo} />
-            <Box id="landing-map-box">
+            <PlacesSearch setUpdatedAddress={getUserInfo} userAddressdetails={userAddress} />
+            <Box
+              id="landing-map-box"
+              style={{ alignItems: "center"}}
+            >
               <GoogleMapsComp
                 addressfetcher={saveUserAddress}
                 userAddressdetails={userAddress}

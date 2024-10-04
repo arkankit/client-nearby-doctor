@@ -1,0 +1,54 @@
+#homepage-container {
+  background-image: url("./../../assets/doctor-landing-background.jpg");
+  background-size: cover; /* Ensures the image covers the entire background */
+  background-position: center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  min-height: 100vh; /* Ensures it covers the full viewport height */
+}
+
+#heading-text.dm-serif-text-regular {
+  font-family: "DM Serif Text", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#heading-subtext.dm-serif-text-regular {
+  font-family: "DM Serif Text", system-ui;
+  font-weight: 400;
+  font-style: normal;
+}
+
+#login-button.button {
+  font-family: "DM Serif Text", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.1em;
+  color: black;
+  background-color: transparent !important; /* New color only for homepage*/
+}
+
+#signup-button.button {
+  font-family: "DM Serif Text", system-ui;
+  font-weight: 400;
+  font-style: normal;
+  font-size: 1.1em;
+  background-color: var(
+    --variant-containedBg
+  ) !important; /* New color only for homepage*/
+}
+
+@keyframes slideInFromLeftAndFade {
+    from {
+        transform: translateX(-30%); /* Start from the left */
+        opacity: 0; /* Start fully transparent */
+    }
+    to {
+        transform: translateX(0); /* End at the center */
+        opacity: 1; /* End fully opaque */
+    }
+}
+
+/* Using above keyframe in the class below */
+#homepage-text-div.slide-in-fade {
+    animation: slideInFromLeftAndFade 0.6s ease-out;
+}

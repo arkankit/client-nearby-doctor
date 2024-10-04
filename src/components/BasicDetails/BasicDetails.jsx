@@ -33,7 +33,7 @@ function BasicDetails() {
         console.log("User not registered yet, redirecting to signup!");
         setAccessedBeforeSignup(true);
         setTimeout(() => {
-          navigate("/");
+          navigate("/signup");
         }, 4000);
       } else {
         console.log("User accessed BasicDetails page for updating details");

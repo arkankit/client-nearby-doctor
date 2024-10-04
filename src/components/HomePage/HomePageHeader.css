@@ -1,0 +1,9 @@
+#about-button.button {
+    font-family: "DM Serif Text", system-ui;
+    font-weight: 400;
+    font-style: normal;
+    font-size: 1.2em;
+    color: black;
+    background-color: transparent !important; /* New color only for homepage*/
+  }
+  

@@ -132,7 +132,7 @@ function Login() {
       />
       <Typography className="noto-sans-text">
         Don't have an account?
-        <Link className=" link-spacing" to="/">
+        <Link className=" link-spacing" to="/signup">
           Signup
         </Link>
       </Typography>

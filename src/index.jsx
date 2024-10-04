@@ -7,12 +7,13 @@ import NotFoundPage from './components/NotFoundPage/NotFoundPage.jsx';
 
 import { createBrowserRouter, RouterProvider } from 'react-router-dom';
 import BasicDetails from './components/BasicDetails/BasicDetails.jsx';
+import "./baseStyle.css";
+import HomePage from './components/HomePage/HomePage.jsx';
 
 const router = createBrowserRouter([
   {
-    path: "/",
+    path: "/signup",
     element : <Signup />,
-    errorElement : <NotFoundPage />,
   },
   {
     path: "/login",
@@ -25,6 +26,11 @@ const router = createBrowserRouter([
   {
     path : "/details",
     element : <BasicDetails />
+  },
+  {
+    path : "/",
+    element : <HomePage />,
+    errorElement : <NotFoundPage />,
   }
 ]);
 
