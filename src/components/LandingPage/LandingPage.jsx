@@ -13,6 +13,7 @@ function LandingPage() {
   const [userName, setUserName] = useState("");
   const [userAddress, setUserAddress] = useState(null);
   const [logout, setLogout] = useState(false);
+  const [pageLoading, setPageLoading] = useState(true);
 
   const navigate = useNavigate();
 
@@ -38,6 +39,9 @@ function LandingPage() {
   // using effect hook with empty dependency array to check for an active session only one time when the component mounts
   useEffect(() => {
     checkActiveSession();
+    setTimeout(() => {
+      setPageLoading(false);
+    }, 1000);
   }, []);
 
   async function getUserInfo() {
@@ -99,7 +103,10 @@ function LandingPage() {
     }
   }
 
-  return (
+  return pageLoading ? (
+    <CircularProgress id="spinner" className="spinner-class"
+    />
+  ) : (
     <div>
       {logout ? (
         <div id="logout-animate">
@@ -109,14 +116,14 @@ function LandingPage() {
         <div>
           <LandingHeader name={userName} logOut={logoutUser} />
           <Box
-            className="landing-container"
+            className="landing-container slide-in-fade"
             sx={{ "& > :not(style)": { mx: "auto" } }}
           >
-            <PlacesSearch setUpdatedAddress={getUserInfo} userAddressdetails={userAddress} />
-            <Box
-              id="landing-map-box"
-              style={{ alignItems: "center"}}
-            >
+            <PlacesSearch
+              setUpdatedAddress={getUserInfo}
+              userAddressdetails={userAddress}
+            />
+            <Box id="landing-map-box" style={{ alignItems: "center" }}>
               <GoogleMapsComp
                 addressfetcher={saveUserAddress}
                 userAddressdetails={userAddress}
