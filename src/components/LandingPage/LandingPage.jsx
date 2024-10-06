@@ -8,12 +8,14 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DoctorSearchForm from "./DoctorSearchForm/DoctorSearchForm";
 import PlacesSearch from "./PlacesSearch/PlacesSearch";
+import { userDetailsGetter } from "../../Contexts/UserDetailsContext"; // importing the context hook for setting the fetched user data as context data
 
 function LandingPage() {
-  const [userName, setUserName] = useState("");
+  const [userFirstName, setUserFirstName] = useState("");
   const [userAddress, setUserAddress] = useState(null);
   const [logout, setLogout] = useState(false);
   const [pageLoading, setPageLoading] = useState(true);
+  const { setUserData } = userDetailsGetter(); // destructuring and getting access to the setter of userData state variable
 
   const navigate = useNavigate();
 
@@ -49,19 +51,27 @@ function LandingPage() {
       const response = await axios.get("http://localhost:3000/getDetails", {
         withCredentials: true,
       });
-      if (userName === "") {
-        setUserName(response.data.fname);
-      }
+      setUserFirstName(response.data.fname);
+
       if (response.data.user_address !== null) {
         const {
           userlat: latitude,
           userlong: longitude,
           user_address: readableAddress,
         } = response.data; // getting the stored user address details if already available in db.
+        //console.log("sending data to context:",userFirstName,response.data.lname,userAddress.readableAddress,response.data.user_plan_code);
         setUserAddress({ latitude, longitude, readableAddress });
+        const userData = {
+          firstName: response.data.fname,
+          lastName: response.data.lname,
+          address: response.data.user_address,
+          planCode: response.data.user_plan_code,
+        }
+        setUserData(userData); // setting up the context data with the data recieved from db
+        localStorage.setItem("userData", JSON.stringify(userData)); // to make data persist on user triggered page reloads
       }
     } catch (err) {
-      console.log(response.data.errorMessage);
+      console.log("Error getting user details:", err);
     }
   }
 
@@ -104,8 +114,7 @@ function LandingPage() {
   }
 
   return pageLoading ? (
-    <CircularProgress id="spinner" className="spinner-class"
-    />
+    <CircularProgress id="spinner" className="spinner-class" />
   ) : (
     <div>
       {logout ? (
@@ -114,7 +123,7 @@ function LandingPage() {
         </div>
       ) : (
         <div>
-          <LandingHeader name={userName} logOut={logoutUser} />
+          <LandingHeader name={userFirstName} logOut={logoutUser} />
           <Box
             className="landing-container slide-in-fade"
             sx={{ "& > :not(style)": { mx: "auto" } }}

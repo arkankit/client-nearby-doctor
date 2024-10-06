@@ -13,6 +13,7 @@ import AboutSection from "./components/LandingPage/UserAppDrawer/AboutSection/Ab
 import HelpSection from "./components/LandingPage/UserAppDrawer/HelpSection/HelpSection.jsx";
 import UserProfile from "./components/LandingPage/UserAppDrawer/UserProfile/UserProfile.jsx";
 import AccountSection from "./components/LandingPage/UserAppDrawer/AccountSection/AccountSection.jsx";
+import { UserDetailsProvider } from "./Contexts/UserDetailsContext.jsx"; // importing here to wrap whole app with this context
 
 const router = createBrowserRouter([
   {
@@ -55,7 +56,10 @@ const router = createBrowserRouter([
 ]);
 
 createRoot(document.getElementById("root")).render(
-  //using RouterProvider we have deffered the rending to this Component so as to use th routings
+  //using RouterProvider we have deffered the rending to this Component so as to use the routings
   // we have defined above
-  <RouterProvider router={router} />
+  /* wrapping the whole app with th context provider so that any component has the access to the context data */
+  <UserDetailsProvider>
+    <RouterProvider router={router} />
+  </UserDetailsProvider>
 );
