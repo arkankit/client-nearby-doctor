@@ -7,6 +7,7 @@ import {
   MenuItem,
   TextField,
   Button,
+  Tooltip,
 } from "@mui/material";
 import { useEffect, useState } from "react";
 import "./../../../Signup/Signup.css";
@@ -16,20 +17,78 @@ import { useNavigate } from "react-router-dom";
 import "./../../../BasicDetails/BasicDetails.css";
 import "./UserProfile.css";
 import { userDetailsGetter } from "../../../../Contexts/UserDetailsContext"; // importing the context hook to access the user data set by landing page
+import axios from "axios";
+import AutohideSnackbar from "./Feedback/AutohideSnackbar";
 
 function UserProfile() {
   const { userData } = userDetailsGetter(); // using the context hook to get access to the users context data
+  const { setUserData } = userDetailsGetter(); // using the context hook to set new users context data
   const [firstName, setFirstname] = useState("");
   const [lastName, setLastname] = useState("");
   const [insurerCode, setInsurerCode] = useState("");
+  const [fnameNotEditable, setFNameNotEditable] = useState(true);
+  const [lnameNotEditable, setLNameNotEditable] = useState(true);
+  const [planDropdownDisable, setPlanDropdownDisable] = useState(true);
+  const [snackbarOpen, setSnackBarOpen] = useState(false);
+  const [message, setMessage] = useState("");
 
   const navigate = useNavigate();
 
-  function handleFNEditClick() {}
+  function handleFNEditClick() {
+    setFNameNotEditable(false);
+  }
 
-  function handleLNEditClick() {}
+  function handleLNEditClick() {
+    setLNameNotEditable(false);
+  }
 
-  function handleSubmitData() {}
+  function handlePlanEditClick() {
+    setPlanDropdownDisable(false);
+  }
+
+  async function handleSubmitData() {
+    if (
+      firstName !== userData.firstName ||
+      lastName !== userData.lastName ||
+      insurerCode !== userData.planCode
+    ) {
+      try {
+        const response = await axios.post(
+          "http://localhost:3000/details",
+          { firstName, lastName, insurerCode },
+          { withCredentials: true }
+        );
+
+        if (response.data.saved) {
+          // update the context data
+          const usersNewData = {
+            firstName: firstName,
+            lastName: lastName,
+            address: userData.address,
+            planCode: insurerCode,
+          };
+          setUserData(usersNewData);
+          localStorage.setItem("userData", JSON.stringify(usersNewData)); // to make data persist on user triggered page reloads
+          //trigger snackbar to show updated message and fields
+          setMessage("Updated details successfully");
+          setSnackBarOpen(true);
+          // disable all inputs again
+          setFNameNotEditable(true);
+          setLNameNotEditable(true);
+          setPlanDropdownDisable(true);
+        }
+      } catch (err) {
+        console.log("Error saving new details of user:", err);
+      }
+    } else {
+      setSnackBarOpen(true);
+      // disable all inputs again
+      setFNameNotEditable(true);
+      setLNameNotEditable(true);
+      setPlanDropdownDisable(true);
+      setMessage("Data entered already exists, ignoring any update");
+    }
+  }
 
   useEffect(() => {
     if (userData) {
@@ -63,6 +122,7 @@ function UserProfile() {
         <TextField
           className="noto-sans-text"
           type="text"
+          focused={true}
           id="outlined-basic"
           label="First Name"
           variant="outlined"
@@ -71,54 +131,73 @@ function UserProfile() {
             setFirstname(e.target.value);
           }}
           required
+          disabled={fnameNotEditable}
         />
         <IconButton
           style={{ width: "fit-content", margin: "0.5em auto" }}
           onClick={handleFNEditClick}
           aria-label="edit"
         >
-          <EditIcon />
+          <Tooltip title="Click to edit First Name" position="top">
+            <EditIcon />
+          </Tooltip>
         </IconButton>
         <TextField
           className="noto-sans-text"
           type="text"
           id="outlined-basic"
           label="Last Name"
+          focused={true}
           variant="outlined"
           value={lastName}
           onChange={(e) => {
             setLastname(e.target.value);
           }}
           required
+          disabled={lnameNotEditable}
         />
         <IconButton
           style={{ width: "fit-content", margin: "0.5em auto" }}
           onClick={handleLNEditClick}
           aria-label="edit"
         >
-          <EditIcon />
+          <Tooltip title="Click to edit Last Name" position="top">
+            <EditIcon />
+          </Tooltip>
         </IconButton>
       </Box>
-      <FormControl>
-        <InputLabel sx={{ paddingTop: "1em" }} id="demo-simple-select-label">
-          Medical Insurance Provider
-        </InputLabel>
-        <Select
-          labelId="demo-simple-select-label"
-          id="demo-simple-select"
-          value={insurerCode}
-          label="Medical Insurance Provider"
-          onChange={(e) => {
-            setInsurerCode(e.target.value);
-          }}
+      <Box sx={{ display: "flex" }}>
+        <FormControl fullWidth>
+          <InputLabel sx={{ paddingTop: "1em" }} id="demo-simple-select-label">
+            Medical Insurance Provider
+          </InputLabel>
+          <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={insurerCode}
+            label="Medical Insurance Provider"
+            onChange={(e) => {
+              setInsurerCode(e.target.value);
+            }}
+            disabled={planDropdownDisable}
+          >
+            <MenuItem value="tata_aig">TATA AIG</MenuItem>
+            <MenuItem value="manipal_cig">MANIPAL CIGNA </MenuItem>
+            <MenuItem value="reliance_gen">RELIANCE GENERAL</MenuItem>
+            <MenuItem value="hdfc_ergo">HDFC ERGO</MenuItem>
+            <MenuItem value="map_bupa">MAX BUPA</MenuItem>
+          </Select>
+        </FormControl>
+        <IconButton
+          style={{ margin: "0.5em 7%", justifySelf: "left" }}
+          onClick={handlePlanEditClick}
+          aria-label="edit"
         >
-          <MenuItem value="tata_aig">TATA AIG</MenuItem>
-          <MenuItem value="manipal_cig">MANIPAL CIGNA </MenuItem>
-          <MenuItem value="reliance_gen">RELIANCE GENERAL</MenuItem>
-          <MenuItem value="hdfc_ergo">HDFC ERGO</MenuItem>
-          <MenuItem value="map_bupa">MAX BUPA</MenuItem>
-        </Select>
-      </FormControl>
+          <Tooltip title="Click to enable dropdown" position="top">
+            <EditIcon />
+          </Tooltip>
+        </IconButton>
+      </Box>
       <Box sx={{ display: "flex" }}>
         <Button
           onClick={() => {
@@ -134,10 +213,16 @@ function UserProfile() {
           onClick={handleSubmitData}
           className="button"
           variant="contained"
+          disabled={fnameNotEditable && lnameNotEditable && planDropdownDisable}
         >
           Save Changes
         </Button>
       </Box>
+      <AutohideSnackbar
+        openSnackbar={snackbarOpen}
+        message={message}
+        setSnackBarOpen={setSnackBarOpen}
+      />
     </Box>
   );
 }

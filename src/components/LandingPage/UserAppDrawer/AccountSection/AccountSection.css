@@ -1,0 +1,10 @@
+.noto-sans-text {
+    display: flex;
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 700;
+    color: darkslategray ;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+  }

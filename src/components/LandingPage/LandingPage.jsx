@@ -66,6 +66,8 @@ function LandingPage() {
           lastName: response.data.lname,
           address: response.data.user_address,
           planCode: response.data.user_plan_code,
+          userName: response.data.username,
+          pwd: response.data.password,
         }
         setUserData(userData); // setting up the context data with the data recieved from db
         localStorage.setItem("userData", JSON.stringify(userData)); // to make data persist on user triggered page reloads
