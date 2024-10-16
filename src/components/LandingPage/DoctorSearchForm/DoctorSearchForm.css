@@ -3,3 +3,9 @@
     width: 50%;
     margin: 0 25%;
 }
+.signup-box-doc-search {
+    display: flex;
+    flex-direction: column;
+    margin: 0 auto;
+    width: 55%;
+  }

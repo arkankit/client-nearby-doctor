@@ -14,7 +14,7 @@ import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
 import { userDetailsGetter } from "../../../../Contexts/UserDetailsContext";
 import useDebounce from "../../Utility/useDebounce";
-import validateUserNamePwd from "./Utility/validateUserNamePwd";
+import axios from "axios";
 
 function AccountSection() {
   const { userData } = userDetailsGetter(); // using the context hook to get access to the users context data
@@ -32,7 +32,6 @@ function AccountSection() {
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [submitButtondisabled, setSubmitButtonDisabled] = useState(true);
   const [valuesEntered, setValuesEntered] = useState(false);
-  const [resultant, setResultant] = useState({});
 
   const navigate = useNavigate();
 
@@ -47,22 +46,75 @@ function AccountSection() {
   }
 
   async function handleSubmitData() {
-    const resultObject = await validateUserNamePwd(
-      unameEditable,
-      enableResetPwd,
-      username,
-      password,
-      existingPassword,
-      existingUsername
-    );
-    setResultant(resultObject);
-  }
-
-  useEffect(() => {
-    if (resultant) {
-      
+    if (unameEditable) {
+      if (username === existingUsername) {
+        setFeedbackMessage("Please provide a new username");
+      } else {
+        if (enableResetPwd) {
+          // check for same password
+          try {
+            const response = await axios.post(
+              "http://localhost:3000/resetUnamePwd",
+              { username, password, existingPassword },
+              { withCredentials: true }
+            );
+            if (response.data.usernamePasswordUpdated) {
+              updateUserName(username);
+              setFeedbackMessage("Username and password updated");
+            } else {
+              setFeedbackMessage(
+                "Password entered in same as existing, please change"
+              );
+            }
+          } catch (err) {
+            console.log(
+              "Error contacting server for username and password update:",
+              err
+            );
+          }
+        } else {
+          // username is diff and password is not being edited, then save only username
+          try {
+            const response = await axios.post(
+              "http://localhost:3000/resetUnamePwd",
+              { username },
+              { withCredentials: true }
+            );
+            if (response.data.usernameUpdated) {
+              updateUserName(username); // setting up the context with new username
+              setFeedbackMessage("Username updated");
+            }
+          } catch (err) {
+            console.log("Error contacting server for username update:", err);
+          }
+        }
+      }
+    } else {
+      // if username was not touched then only update password
+      if (enableResetPwd) {
+        // check for same password
+        try {
+          const response = await axios.post(
+            "http://localhost:3000/resetUnamePwd",
+            { password, existingPassword },
+            { withCredentials: true }
+          );
+          if (response.data.passwordUpdated) {
+            setFeedbackMessage("Password updated");
+          } else {
+            setFeedbackMessage(
+              "Password entered in same as existing, please change"
+            );
+          }
+        } catch (err) {
+          console.log(
+            "Error contacting server for username and password update:",
+            err
+          );
+        }
+      }
     }
-  }, [resultant]);
+  }
 
   useEffect(() => {
     if (userData) {
@@ -89,7 +141,7 @@ function AccountSection() {
       setFeedbackMessage("Username can't be empty");
       setTimeout(() => {
         setFeedbackMessage("");
-      },2000);
+      }, 2000);
     }
   }, [debouncedInput, password, username]);
 
@@ -221,7 +273,11 @@ function AccountSection() {
             align="left"
             justifyContent="unset"
             color={
-              feedbackMessage === "Passwords match" ? "#008000" : "#ff0000"
+              feedbackMessage === "Passwords match" ||
+              feedbackMessage === "Username and password updated" ||
+              feedbackMessage === "Username updated"
+                ? "#008000"
+                : "#ff0000"
             }
             variant="h6"
             className="noto-sans-text"

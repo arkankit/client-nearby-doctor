@@ -146,14 +146,14 @@ function DoctorSearchForm({ addressOfUser }) {
   return (
     <div>
       <Box
-        className="signup-box slide-in-fade"
+        className="signup-box-doc-search slide-in-fade"
         style={{marginTop : "5em"}}
         component="form"
         sx={{ "& > :not(style)": { my: 2, mx: "auto", width: "35ch" } }}
         noValidate
         autoComplete="off"
       >
-        <h1 className="noto-sans-text">
+        <h1 className="noto-sans-text" style={{marginBottom: "2em"}}>
           Search doctors filtered on speciality and distance
         </h1>
         <FormControl fullWidth>

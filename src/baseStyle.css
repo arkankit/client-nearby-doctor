@@ -4,10 +4,19 @@ html {
   height: 100%;
 }
 
+body {
+  background-image: url("./assets/homepage-background.jpg");
+  background-size: cover; /* Ensures the image covers the entire background */
+  background-position:center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  min-height: 100vh; /* Ensures it covers the full viewport height */
+  width:inherit;
+}
 #root {
-    background-image: url("./assets/homepage-background.jpg");
-    background-size: cover; /* Ensures the image covers the entire background */
-    background-position: center; /* Centers the image */
-    background-repeat: no-repeat; /* Prevents the image from repeating */
-    min-height: 100vh; /* Ensures it covers the full viewport height */
-  }
+  background-image: url("./assets/homepage-background.jpg");
+  background-size: cover; /* Ensures the image covers the entire background */
+  background-position:center; /* Centers the image */
+  background-repeat: no-repeat; /* Prevents the image from repeating */
+  min-height: 100vh; /* Ensures it covers the full viewport height */
+  width:inherit;
+}

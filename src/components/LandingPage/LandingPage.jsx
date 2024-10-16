@@ -127,6 +127,7 @@ function LandingPage() {
         <div>
           <LandingHeader name={userFirstName} logOut={logoutUser} />
           <Box
+          id="landing-main-box"
             className="landing-container slide-in-fade"
             sx={{ "& > :not(style)": { mx: "auto" } }}
           >
