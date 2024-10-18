@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./../Signup/Signup.css";
 import "../BasicDetails/BasicDetails.css";
 import "./Login.css"
@@ -14,6 +14,7 @@ import { Button, Backdrop } from "@mui/material";
 import NearbyLogo from "../NearbyLogo";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import checkSession from "../LandingPage/Utility/checkSession";
 
 function Login() {
   const [showPassword, setShowPassword] = useState(false);
@@ -24,11 +25,8 @@ function Login() {
   const buttonRef = useRef(null);
 
   async function logoutIfActive() {
-    try {
-      const response = await axios.get("http://localhost:3000/session", {
-        withCredentials: true,
-      });
-      if (response.data.sessionActive) {
+      const sessionActive = await checkSession();
+      if (sessionActive) {
         try{
           const response = await axios.get("http://localhost:3000/logout", {
             withCredentials: true,
@@ -40,9 +38,6 @@ function Login() {
           console.log("Error logging out user:", err);
         }
       }
-    } catch (err) {
-      console.log("Error fetching session:", err);
-    }
   }
 
   useEffect(() => {

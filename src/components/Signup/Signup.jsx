@@ -14,6 +14,7 @@ import NearbyLogo from "../NearbyLogo";
 //import RegisterUser from "./Utility/registerUser";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
+import checkSession from "../LandingPage/Utility/checkSession";
 
 
 function Signup() {
@@ -25,11 +26,8 @@ function Signup() {
   const buttonRef = useRef(null);
 
   async function logoutIfActive() {
-    try {
-      const response = await axios.get("http://localhost:3000/session", {
-        withCredentials: true,
-      });
-      if (response.data.sessionActive) {
+    const sessionActive = await checkSession();
+      if (sessionActive) {
         try{
           const response = await axios.get("http://localhost:3000/logout", {
             withCredentials: true,
@@ -41,9 +39,6 @@ function Signup() {
           console.log("Error logging out user:", err);
         }
       }
-    } catch (err) {
-      console.log("Error fetching session:", err);
-    }
   }
 
   useEffect(() => {

@@ -1,0 +1,22 @@
+.noto-sans-text#questionText1 {
+    display: flex;
+    justify-content: center;
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 400;
+    color: darkslategray ;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+  }
+  .noto-sans-text#questionText2 {
+    display: flex;
+    justify-content: center;
+    font-family: "Noto Sans", sans-serif;
+    font-optical-sizing: auto;
+    font-weight: 350;
+    color: darkslategray ;
+    font-style: normal;
+    font-variation-settings:
+      "wdth" 100;
+  }

@@ -8,6 +8,7 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import DoctorSearchForm from "./DoctorSearchForm/DoctorSearchForm";
 import PlacesSearch from "./PlacesSearch/PlacesSearch";
+import checkSession from "./Utility/checkSession";
 import { userDetailsGetter } from "../../Contexts/UserDetailsContext"; // importing the context hook for setting the fetched user data as context data
 
 function LandingPage() {
@@ -20,21 +21,15 @@ function LandingPage() {
   const navigate = useNavigate();
 
   async function checkActiveSession() {
-    try {
-      const response = await axios.get("http://localhost:3000/session", {
-        withCredentials: true,
-      });
-      if (response.data.sessionActive) {
-        getUserInfo();
-      } else {
-        console.log("No active session found, redirecting to login!");
-        setLogout(true);
-        setTimeout(() => {
-          navigate("/login");
-        }, 2000);
-      }
-    } catch (err) {
-      console.log("Error fetching session:", err);
+    const sessionActive = await checkSession();
+    if (sessionActive) {
+      getUserInfo();
+    } else {
+      console.log("No active session found, redirecting to login!");
+      setLogout(true);
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
     }
   }
 
@@ -68,7 +63,7 @@ function LandingPage() {
           planCode: response.data.user_plan_code,
           userName: response.data.username,
           pwd: response.data.password,
-        }
+        };
         setUserData(userData); // setting up the context data with the data recieved from db
         localStorage.setItem("userData", JSON.stringify(userData)); // to make data persist on user triggered page reloads
       }
@@ -127,7 +122,7 @@ function LandingPage() {
         <div>
           <LandingHeader name={userFirstName} logOut={logoutUser} />
           <Box
-          id="landing-main-box"
+            id="landing-main-box"
             className="landing-container slide-in-fade"
             sx={{ "& > :not(style)": { mx: "auto" } }}
           >

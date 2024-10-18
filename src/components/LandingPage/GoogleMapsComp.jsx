@@ -90,7 +90,7 @@ function GoogleMapsComp({ addressfetcher, userAddressdetails }) {
               className="noto-sans-text"
             >
               Use the toggle button below to set your current location as per
-              your GPS location or to keep using your previously saved address
+              your current GPS location or to keep using your previously saved address
             </Typography>
           </>
         ) : (

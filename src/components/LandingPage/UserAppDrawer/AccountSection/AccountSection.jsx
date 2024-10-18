@@ -7,6 +7,7 @@ import {
   Tooltip,
   InputAdornment,
   Button,
+  CircularProgress,
 } from "@mui/material";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
@@ -15,6 +16,7 @@ import { VisibilityOff } from "@mui/icons-material";
 import { userDetailsGetter } from "../../../../Contexts/UserDetailsContext";
 import useDebounce from "../../Utility/useDebounce";
 import axios from "axios";
+import checkSession from "../../Utility/checkSession";
 
 function AccountSection() {
   const { userData } = userDetailsGetter(); // using the context hook to get access to the users context data
@@ -32,8 +34,20 @@ function AccountSection() {
   const [feedbackMessage, setFeedbackMessage] = useState("");
   const [submitButtondisabled, setSubmitButtonDisabled] = useState(true);
   const [valuesEntered, setValuesEntered] = useState(false);
+  const [logout, setLogout] = useState(false);
 
   const navigate = useNavigate();
+
+  async function checkActiveSession() {
+    const sessionActive = await checkSession();
+    if (!sessionActive) {
+      console.log("No active session found, redirecting to login!");
+      setLogout(true);
+      setTimeout(() => {
+        navigate("/login");
+      }, 2000);
+    }
+  }
 
   function handleClickShowPassword() {
     setShowPassword((prevValue) => {
@@ -115,6 +129,9 @@ function AccountSection() {
       }
     }
   }
+  useEffect(() => {
+    checkActiveSession();
+  }, []);
 
   useEffect(() => {
     if (userData) {
@@ -166,147 +183,155 @@ function AccountSection() {
     }
   }, [unameEditable, enableResetPwd, feedbackMessage]);
   return (
-    <Box
-      className="slide-in-fade"
-      sx={{
-        display: "flex",
-        flexDirection: "column",
-        margin: "-5% 10%",
-        width: "700px",
-        padding: "25vh 0",
-        "& > :not(style)": { padding: "1em 0" },
-      }}
-    >
-      <Typography
-        align="left"
-        justifyContent="unset"
-        variant="h3"
-        className="noto-sans-text"
-      >
-        Account Details
-      </Typography>
-      <Box>
-        <TextField
-          className="noto-sans-text"
-          type="text"
-          focused={true}
-          id="outlined-basic"
-          label="Username"
-          variant="outlined"
-          value={username}
-          onChange={(e) => {
-            setUsername(e.target.value);
-            setValuesEntered(true);
+    <>
+      {logout ? (
+        <div id="logout-animate">
+          <CircularProgress />
+        </div>
+      ) : (
+        <Box
+          className="slide-in-fade"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            margin: "-5% 10%",
+            width: "700px",
+            padding: "25vh 0",
+            "& > :not(style)": { padding: "1em 0" },
           }}
-          required
-          disabled={!unameEditable}
-        />
-        <IconButton
-          style={{ width: "fit-content", margin: "0.3em 3%" }}
-          onClick={handleUNEditClick}
-          aria-label="edit"
-          disabled={unameEditable}
         >
-          <Tooltip title="Click to edit User Name" position="top">
-            <EditIcon />
-          </Tooltip>
-        </IconButton>
-      </Box>
-      <Box>
-        {!enableResetPwd ? (
-          <Button
-            onClick={() => {
-              setEnableResetPwd(true);
-            }}
-            className="button"
-            variant="contained"
-          >
-            Reset Password
-          </Button>
-        ) : (
-          <TextField
-            className="noto-sans-text"
-            type="password"
-            id="outlined-basic"
-            label="New password"
-            variant="outlined"
-            onChange={(e) => {
-              setEnableSecondResetPwd(true);
-              setPassword(e.target.value);
-              setValuesEntered(true);
-            }}
-            required
-          />
-        )}
-        {enableSecondResetPwd && (
-          <TextField
-            sx={{ margin: "0 5%" }}
-            className="noto-sans-text"
-            type={showPassword ? "text" : "password"}
-            id="outlined-basic"
-            label="Confirm new Password"
-            variant="outlined"
-            onChange={(e) => {
-              setPasswordCopy(e.target.value);
-            }}
-            required
-            slotProps={{
-              input: {
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowPassword}
-                      edge="end"
-                    >
-                      {showPassword ? <VisibilityOff /> : <Visibility />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              },
-            }}
-          />
-        )}
-        {feedbackMessage === "" ? null : (
           <Typography
-            sx={{ marginTop: "1em" }}
             align="left"
             justifyContent="unset"
-            color={
-              feedbackMessage === "Passwords match" ||
-              feedbackMessage === "Username and password updated" ||
-              feedbackMessage === "Username updated"
-                ? "#008000"
-                : "#ff0000"
-            }
-            variant="h6"
+            variant="h3"
             className="noto-sans-text"
           >
-            {feedbackMessage}
+            Account Details
           </Typography>
-        )}
-      </Box>
-      <Box sx={{ display: "flex" }}>
-        <Button
-          onClick={() => {
-            navigate("/landing");
-          }}
-          className="button"
-          variant="contained"
-        >
-          Go Back
-        </Button>
-        <Button
-          sx={{ margin: "0 4em" }}
-          onClick={handleSubmitData}
-          className="button"
-          variant="contained"
-          disabled={submitButtondisabled}
-        >
-          Save Changes
-        </Button>
-      </Box>
-    </Box>
+          <Box>
+            <TextField
+              className="noto-sans-text"
+              type="text"
+              focused={true}
+              id="outlined-basic"
+              label="Username"
+              variant="outlined"
+              value={username}
+              onChange={(e) => {
+                setUsername(e.target.value);
+                setValuesEntered(true);
+              }}
+              required
+              disabled={!unameEditable}
+            />
+            <IconButton
+              style={{ width: "fit-content", margin: "0.3em 3%" }}
+              onClick={handleUNEditClick}
+              aria-label="edit"
+              disabled={unameEditable}
+            >
+              <Tooltip title="Click to edit User Name" position="top">
+                <EditIcon />
+              </Tooltip>
+            </IconButton>
+          </Box>
+          <Box>
+            {!enableResetPwd ? (
+              <Button
+                onClick={() => {
+                  setEnableResetPwd(true);
+                }}
+                className="button"
+                variant="contained"
+              >
+                Reset Password
+              </Button>
+            ) : (
+              <TextField
+                className="noto-sans-text"
+                type="password"
+                id="outlined-basic"
+                label="New password"
+                variant="outlined"
+                onChange={(e) => {
+                  setEnableSecondResetPwd(true);
+                  setPassword(e.target.value);
+                  setValuesEntered(true);
+                }}
+                required
+              />
+            )}
+            {enableSecondResetPwd && (
+              <TextField
+                sx={{ margin: "0 5%" }}
+                className="noto-sans-text"
+                type={showPassword ? "text" : "password"}
+                id="outlined-basic"
+                label="Confirm new Password"
+                variant="outlined"
+                onChange={(e) => {
+                  setPasswordCopy(e.target.value);
+                }}
+                required
+                slotProps={{
+                  input: {
+                    endAdornment: (
+                      <InputAdornment position="end">
+                        <IconButton
+                          aria-label="toggle password visibility"
+                          onClick={handleClickShowPassword}
+                          edge="end"
+                        >
+                          {showPassword ? <VisibilityOff /> : <Visibility />}
+                        </IconButton>
+                      </InputAdornment>
+                    ),
+                  },
+                }}
+              />
+            )}
+            {feedbackMessage === "" ? null : (
+              <Typography
+                sx={{ marginTop: "1em" }}
+                align="left"
+                justifyContent="unset"
+                color={
+                  feedbackMessage === "Passwords match" ||
+                  feedbackMessage === "Username and password updated" ||
+                  feedbackMessage === "Username updated"
+                    ? "#008000"
+                    : "#ff0000"
+                }
+                variant="h6"
+                className="noto-sans-text"
+              >
+                {feedbackMessage}
+              </Typography>
+            )}
+          </Box>
+          <Box sx={{ display: "flex", marginTop: "8rem" }}>
+            <Button
+              onClick={() => {
+                navigate("/landing");
+              }}
+              className="button"
+              variant="contained"
+            >
+              Go Back
+            </Button>
+            <Button
+              sx={{ margin: "0 4em" }}
+              onClick={handleSubmitData}
+              className="button"
+              variant="contained"
+              disabled={submitButtondisabled}
+            >
+              Save Changes
+            </Button>
+          </Box>
+        </Box>
+      )}
+    </>
   );
 }
 

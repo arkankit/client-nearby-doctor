@@ -1,11 +1,30 @@
-import { Box, Typography, Link, Button } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 import XIcon from "@mui/icons-material/X";
 import FacebookIcon from "@mui/icons-material/Facebook";
 import IconButton from "@mui/material/IconButton";
 import { useNavigate } from "react-router-dom";
+import checkSession from "../../Utility/checkSession";
+import { useState, useEffect } from "react";
 
 function AboutSection() {
+  const [navigateLink, setNavigateLink] = useState("");
   const navigate = useNavigate();
+
+  async function checkActiveSession() {
+    const sessionActive = await checkSession();
+    if (sessionActive) {
+      console.log("Session active, back button set to landing");
+      setNavigateLink("/landing");
+    } else {
+      console.log("Session inactive, back button set to homepage");
+      setNavigateLink("/");
+    }
+  }
+
+  useEffect(() => {
+    checkActiveSession();
+  }, []);
+
   return (
     <Box
       className="slide-in-fade"
@@ -61,7 +80,7 @@ function AboutSection() {
         <IconButton
           style={{ width: "fit-content", margin: "0.3em 3%" }}
           component="a"
-          href="https://www.twitter.com"
+          href="https://www.x.com"
           target="_blank"
           rel="noopener noreferrer"
           aria-label="Twitter"
@@ -72,7 +91,7 @@ function AboutSection() {
       <Box sx={{ display: "flex", marginTop: "4em" }}>
         <Button
           onClick={() => {
-            navigate("/landing");
+            navigate(`${navigateLink}`);
           }}
           className="button"
           variant="contained"
