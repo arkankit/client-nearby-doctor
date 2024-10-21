@@ -19,7 +19,7 @@ function PlacesSearch({ setUpdatedAddress, userAddressdetails }) {
   async function getUserInfo() {
     // calling this function to initially show the users stored addresses after they login
     try {
-      const response = await axios.get("http://localhost:3000/getDetails", {
+      const response = await axios.get("http://server-nearby-doctor-production.up.railway.app/getDetails", {
         withCredentials: true,
       });
       if (response.data.user_address !== null) {
@@ -42,7 +42,7 @@ function PlacesSearch({ setUpdatedAddress, userAddressdetails }) {
       const fetchSuggestions = async () => {
         try {
           const response = await axios.get(
-            "http://localhost:3000/api/autocomplete",
+            "http://server-nearby-doctor-production.up.railway.app/api/autocomplete",
             {
               params: {
                 input: debouncedInput,
@@ -88,7 +88,7 @@ function PlacesSearch({ setUpdatedAddress, userAddressdetails }) {
   async function handleButtonSubmit() {
     try {
       const response = await axios.post(
-        "http://localhost:3000/saveAddressDetails",
+        "http://server-nearby-doctor-production.up.railway.app/saveAddressDetails",
         {
           latitude: userUpdatedLocation.lat,
           longitude: userUpdatedLocation.lng,

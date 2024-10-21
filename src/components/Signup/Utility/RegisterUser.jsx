@@ -11,7 +11,7 @@ function RegisterUser({uname, upwd}) {
   };
   const register = async () => {
     try {
-      const response = await axios.post("http://localhost:3000/register", data);
+      const response = await axios.post("http://server-nearby-doctor-production.up.railway.app/register", data);
       if (response.status == 201) {
         navigate("/details");
       }

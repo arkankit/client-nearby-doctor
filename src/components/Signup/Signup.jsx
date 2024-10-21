@@ -29,7 +29,7 @@ function Signup() {
     const sessionActive = await checkSession();
       if (sessionActive) {
         try{
-          const response = await axios.get("http://localhost:3000/logout", {
+          const response = await axios.get("http://server-nearby-doctor-production.up.railway.app/logout", {
             withCredentials: true,
           });
           if(response.data.success){
@@ -68,7 +68,7 @@ function Signup() {
 
   async function handleSignup(){
     try{
-      const response = await axios.post("http://localhost:3000/register", {userName, enteredPassword}, {withCredentials : true});
+      const response = await axios.post("http://server-nearby-doctor-production.up.railway.app/register", {userName, enteredPassword}, {withCredentials : true});
       if(response.data.isRegistered){
         setAlreadyRegistered(true);
         setTimeout(() => {

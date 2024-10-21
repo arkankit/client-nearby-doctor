@@ -28,7 +28,7 @@ function Login() {
       const sessionActive = await checkSession();
       if (sessionActive) {
         try{
-          const response = await axios.get("http://localhost:3000/logout", {
+          const response = await axios.get("http://server-nearby-doctor-production.up.railway.app/logout", {
             withCredentials: true,
           });
           if(response.data.success){
@@ -66,7 +66,7 @@ function Login() {
 
   async function handleLogin(){
     try{
-      const response = await axios.post("http://localhost:3000/login", {username, password}, {withCredentials : true});
+      const response = await axios.post("http://server-nearby-doctor-production.up.railway.app/login", {username, password}, {withCredentials : true});
       if(response.data.success){
         setLoginSuccess(true);
         setLoginError(false);

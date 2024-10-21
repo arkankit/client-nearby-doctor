@@ -43,7 +43,7 @@ function LandingPage() {
 
   async function getUserInfo() {
     try {
-      const response = await axios.get("http://localhost:3000/getDetails", {
+      const response = await axios.get("http://server-nearby-doctor-production.up.railway.app/getDetails", {
         withCredentials: true,
       });
       setUserFirstName(response.data.fname);
@@ -80,7 +80,7 @@ function LandingPage() {
     //save the address details in db for subsequent use
     try {
       const response = await axios.post(
-        "http://localhost:3000/saveAddressDetails",
+        "http://server-nearby-doctor-production.up.railway.app/saveAddressDetails",
         { latitude, longitude, readableAddress },
         { withCredentials: true }
       );
@@ -96,7 +96,7 @@ function LandingPage() {
 
   async function logoutUser() {
     try {
-      const response = await axios.get("http://localhost:3000/logout", {
+      const response = await axios.get("http://server-nearby-doctor-production.up.railway.app/logout", {
         withCredentials: true,
       });
       if (response.data.success) {
