@@ -92,7 +92,7 @@ function DoctorSearchForm({ addressOfUser }) {
 
   async function getUserPlanCode() {
     try {
-      const response = await axios.get("http://server-nearby-doctor-production.up.railway.app/getDetails", {
+      const response = await axios.get("https://server-nearby-doctor-production.up.railway.app/getDetails", {
         withCredentials: true,
       });
       if (response.data !== null) {

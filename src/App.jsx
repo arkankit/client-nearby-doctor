@@ -7,7 +7,7 @@ function App() {
 
   // useEffect(() =>{
 
-  //   fetch("http://server-nearby-doctor-production.up.railway.app/").then(response =>{
+  //   fetch("https://server-nearby-doctor-production.up.railway.app/").then(response =>{
   //     return response.json();
   //   }).then(result => {
   //     setMessage(result);

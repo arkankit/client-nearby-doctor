@@ -26,7 +26,7 @@ function BasicDetails() {
 
   async function checkActiveSession() {
     try {
-      const response = await axios.get("http://server-nearby-doctor-production.up.railway.app/session", {
+      const response = await axios.get("https://server-nearby-doctor-production.up.railway.app/session", {
         withCredentials: true,
       });
       if (!response.data.sessionActive) {
@@ -53,7 +53,7 @@ function BasicDetails() {
   async function submitAdditionalDetails() {
     try {
       const response = await axios.post(
-        "http://server-nearby-doctor-production.up.railway.app/details",
+        "https://server-nearby-doctor-production.up.railway.app/details",
         { firstName, lastName, insurerCode },
         { withCredentials: true }
       );

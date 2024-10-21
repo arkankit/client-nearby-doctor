@@ -68,7 +68,7 @@ function AccountSection() {
           // check for same password
           try {
             const response = await axios.post(
-              "http://server-nearby-doctor-production.up.railway.app/resetUnamePwd",
+              "https://server-nearby-doctor-production.up.railway.app/resetUnamePwd",
               { username, password, existingPassword },
               { withCredentials: true }
             );
@@ -90,7 +90,7 @@ function AccountSection() {
           // username is diff and password is not being edited, then save only username
           try {
             const response = await axios.post(
-              "http://server-nearby-doctor-production.up.railway.app/resetUnamePwd",
+              "https://server-nearby-doctor-production.up.railway.app/resetUnamePwd",
               { username },
               { withCredentials: true }
             );
@@ -109,7 +109,7 @@ function AccountSection() {
         // check for same password
         try {
           const response = await axios.post(
-            "http://server-nearby-doctor-production.up.railway.app/resetUnamePwd",
+            "https://server-nearby-doctor-production.up.railway.app/resetUnamePwd",
             { password, existingPassword },
             { withCredentials: true }
           );

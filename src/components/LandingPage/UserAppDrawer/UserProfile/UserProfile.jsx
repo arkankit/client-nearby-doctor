@@ -68,7 +68,7 @@ function UserProfile() {
     ) {
       try {
         const response = await axios.post(
-          "http://server-nearby-doctor-production.up.railway.app/details",
+          "https://server-nearby-doctor-production.up.railway.app/details",
           { firstName, lastName, insurerCode },
           { withCredentials: true }
         );
