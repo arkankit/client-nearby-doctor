@@ -20,6 +20,7 @@ function Login() {
   const [showPassword, setShowPassword] = useState(false);
   const [loginError, setLoginError] = useState(false);
   const [loginSuccess, setLoginSuccess] = useState(false);
+  const [loading, setLoading] = useState(false);
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const buttonRef = useRef(null);
@@ -54,7 +55,7 @@ function Login() {
     return () => {
       document.removeEventListener("keydown", handleKeyDown); // cleanup after unmount
     };
-  },[]); // empty dependency so as to execute only on mount
+  },[]); // empty dependency so as to execute only once on mount
 
   const navigate = useNavigate();
 
@@ -65,14 +66,16 @@ function Login() {
   }
 
   async function handleLogin(){
+    setLoading(true);
     try{
       const response = await axios.post("https://server-nearby-doctor-production.up.railway.app/login", {username, password}, {withCredentials : true});
       if(response.data.success){
+        setLoading(false);
         setLoginSuccess(true);
         setLoginError(false);
         setTimeout(() => {
           navigate("/landing"); // redirecting user to landing page if successfully logged in
-        },3000);
+        },1000);
       }
     } catch (err) {
       setLoginError(true);
@@ -137,7 +140,7 @@ function Login() {
       {loginSuccess && <Typography id ="success-text" className="noto-sans-text">
         Welcome back!
       </Typography>}
-      {loginSuccess && <CircularProgress />}
+      {loading && <CircularProgress />}
       <Button className="button"variant="contained" ref={buttonRef} onClick={handleLogin}>Login</Button>
     </Box>
   );
