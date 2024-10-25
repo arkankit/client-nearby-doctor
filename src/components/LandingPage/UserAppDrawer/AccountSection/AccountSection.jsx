@@ -213,7 +213,7 @@ function AccountSection() {
               className="noto-sans-text"
               type="text"
               focused={true}
-              id="outlined-basic"
+              id="outlined-basic-uname"
               label="Username"
               variant="outlined"
               value={username}
@@ -250,7 +250,7 @@ function AccountSection() {
               <TextField
                 className="noto-sans-text"
                 type="password"
-                id="outlined-basic"
+                id="outlined-basic-pwd"
                 label="New password"
                 variant="outlined"
                 onChange={(e) => {
@@ -266,7 +266,7 @@ function AccountSection() {
                 sx={{ margin: "0 5%" }}
                 className="noto-sans-text"
                 type={showPassword ? "text" : "password"}
-                id="outlined-basic"
+                id="outlined-basic-pwd-confirm"
                 label="Confirm new Password"
                 variant="outlined"
                 onChange={(e) => {

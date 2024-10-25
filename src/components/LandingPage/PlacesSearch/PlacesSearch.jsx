@@ -162,7 +162,7 @@ function PlacesSearch({ setUpdatedAddress, userAddressdetails }) {
           <EditIcon />
         </IconButton>
         <TextField
-          id="outlined-basic"
+          id="outlined-basic-input"
           label={textLabel}
           variant="outlined"
           value={input}

@@ -98,7 +98,7 @@ function Signup() {
       <TextField
         className="noto-sans-text"
         type="text"
-        id="outlined-basic"
+        id="outlined-basic-name"
         label="Username"
         value={userName}
         onChange={(e) => {setUserName(e.target.value)}}
@@ -108,7 +108,7 @@ function Signup() {
       <TextField
         className="noto-sans-text"
         type={showPassword ? "text" : "password"}
-        id="outlined-basic"
+        id="outlined-basic-passwd"
         label="Password"
         value={enteredPassword}
         onChange={(e) => {setEnteredPassword(e.target.value)}}

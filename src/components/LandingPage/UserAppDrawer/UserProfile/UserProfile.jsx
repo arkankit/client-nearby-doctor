@@ -144,7 +144,7 @@ function UserProfile() {
               className="noto-sans-text"
               type="text"
               focused={true}
-              id="outlined-basic"
+              id="outlined-basic-fname"
               label="First Name"
               variant="outlined"
               value={firstName}
@@ -166,7 +166,7 @@ function UserProfile() {
             <TextField
               className="noto-sans-text"
               type="text"
-              id="outlined-basic"
+              id="outlined-basic-lname"
               label="Last Name"
               focused={true}
               variant="outlined"

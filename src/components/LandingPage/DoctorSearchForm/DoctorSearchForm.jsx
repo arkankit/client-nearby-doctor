@@ -180,7 +180,7 @@ function DoctorSearchForm({ addressOfUser }) {
         <TextField
           className="noto-sans-text"
           type="text"
-          id="outlined-basic"
+          id="outlined-basic-distance"
           label="Distance (Kms)"
           variant="outlined"
           onChange={(e) => {

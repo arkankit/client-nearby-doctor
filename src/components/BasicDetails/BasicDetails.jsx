@@ -116,7 +116,7 @@ function BasicDetails() {
           <TextField
             className="noto-sans-text"
             type="text"
-            id="outlined-basic"
+            id="outlined-basic-firstname"
             label="Your first name"
             variant="outlined"
             value={firstName}
@@ -128,7 +128,7 @@ function BasicDetails() {
           <TextField
             className="noto-sans-text"
             type="text"
-            id="outlined-basic"
+            id="outlined-basic-lastname"
             label="Your last name"
             value={lastName}
             onChange={(e) => {
