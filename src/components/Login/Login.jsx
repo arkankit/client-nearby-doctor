@@ -97,7 +97,7 @@ function Login() {
       <TextField
         className="noto-sans-text"
         type="text"
-        id="outlined-basic"
+        id="outlined-basic-username"
         label="Username"
         variant="outlined"
         value={username}
@@ -107,7 +107,7 @@ function Login() {
       <TextField
         className="noto-sans-text"
         type={showPassword ? "text" : "password"}
-        id="outlined-basic"
+        id="outlined-basic-password"
         label="Password"
         variant="outlined"
         value={password}
