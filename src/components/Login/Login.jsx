@@ -78,6 +78,7 @@ function Login() {
         },1000);
       }
     } catch (err) {
+      setLoading(false);
       setLoginError(true);
       console.log("Login failed:", err);
     }
@@ -141,7 +142,7 @@ function Login() {
         Welcome back!
       </Typography>}
       {loading && <CircularProgress />}
-      <Button className="button"variant="contained" ref={buttonRef} onClick={handleLogin}>Login</Button>
+      <Button className="button"variant="contained" ref={buttonRef} onClick={handleLogin} disabled={loading || loginSuccess}>Login</Button>
     </Box>
   );
 }
