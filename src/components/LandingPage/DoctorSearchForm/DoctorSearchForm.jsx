@@ -204,15 +204,24 @@ function DoctorSearchForm({ addressOfUser }) {
           </Button>
         )}
         <Typography
-      style={{ textAlign: "center", opacity: "50%", width: "fit-content" }}
-      variant="body2"
-      className="noto-sans-text"
-    >
-      *The search functionality has been disabled in Production as it is heavily data-dependent and requires OSRM Docker images to be run on the cloud, which would require a paid commercial setup. However, you can watch our video demo{" "}
-      <a href="https://youtu.be/j8WYotfl5e4" target="_blank" rel="noopener noreferrer">
-        here
-      </a>.
-    </Typography>
+          style={{ textAlign: "center", opacity: "50%", width: "fit-content", display: "inline" }}
+          variant="body2"
+          className="noto-sans-text"
+        >
+          *The search functionality has been disabled in Production as it is
+          heavily data-dependent and requires OSRM Docker images to be run on
+          the cloud, which would require a paid commercial setup. However, you
+          can watch our video demo{" "}
+          <a
+            href="https://youtu.be/j8WYotfl5e4"
+            target="_blank"
+            rel="noopener noreferrer"
+            style={{ color: "blue", textDecoration: "underline" }}
+          >
+            here
+          </a>
+          .
+        </Typography>
         {showLoadingIcon && (
           <CircularProgress size={80} style={{ margin: "0 45%" }} />
         )}
