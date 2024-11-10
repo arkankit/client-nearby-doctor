@@ -43,9 +43,12 @@ function LandingPage() {
 
   async function getUserInfo() {
     try {
-      const response = await axios.get("https://server-nearby-doctor-production.up.railway.app/getDetails", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://server-nearby-doctor-production.up.railway.app/getDetails",
+        {
+          withCredentials: true,
+        }
+      );
       setUserFirstName(response.data.fname);
 
       if (response.data.user_address !== null) {
@@ -75,8 +78,6 @@ function LandingPage() {
   //function to handle address being sent from child GoogleMapsComp component
 
   async function saveUserAddress(latitude, longitude, readableAddress) {
-    setUserAddress({ latitude, longitude, readableAddress }); // to show user thier current saved address
-
     //save the address details in db for subsequent use
     try {
       const response = await axios.post(
@@ -85,8 +86,10 @@ function LandingPage() {
         { withCredentials: true }
       );
 
-      if (response.data.addrStored) console.log("User address stored in DB.");
-      else console.log("Failed to store user address, check server logs.");
+      if (response.data.addrStored) {
+        console.log("User address stored in DB.");
+        setUserAddress({ latitude, longitude, readableAddress }); // to show user thier current saved address
+      } else console.log("Failed to store user address, check server logs.");
     } catch (err) {
       console.log(
         "Error storing user address in DB, failed to send to server."
@@ -96,9 +99,12 @@ function LandingPage() {
 
   async function logoutUser() {
     try {
-      const response = await axios.get("https://server-nearby-doctor-production.up.railway.app/logout", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://server-nearby-doctor-production.up.railway.app/logout",
+        {
+          withCredentials: true,
+        }
+      );
       if (response.data.success) {
         setLogout(true);
         setTimeout(() => {
