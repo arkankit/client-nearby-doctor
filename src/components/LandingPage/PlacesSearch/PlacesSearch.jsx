@@ -7,7 +7,7 @@ import getLatLng from "../Utility/getLatLng.jsx";
 import EditIcon from "@mui/icons-material/Edit";
 import IconButton from "@mui/material/IconButton";
 
-function PlacesSearch({ setUpdatedAddress, userCurrentAddress }) {
+function PlacesSearch({ setUpdatedAddress, userAddressdetails }) {
   const [resultSuggestions, setResultSuggestions] = useState([]);
   const [input, setInput] = useState("");
   const debouncedInput = useDebounce(input, 2000); // sending 2000 ms delay i.e. if user stops typing for 2 second then make places api call
@@ -36,7 +36,7 @@ function PlacesSearch({ setUpdatedAddress, userCurrentAddress }) {
 
   useEffect(() => {
     getUserInfo(); // calling on mount or when parent sends an updated address
-  }, [userCurrentAddress]);
+  }, [userAddressdetails]);
 
   useEffect(() => {
     if (debouncedInput && !resultsFetched) {

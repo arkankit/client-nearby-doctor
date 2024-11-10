@@ -134,7 +134,7 @@ function LandingPage() {
           >
             <PlacesSearch
               setUpdatedAddress={getUserInfo}
-              userCurrentAddress={userAddress.readableAddress}
+              userAddressdetails={userAddress}
             />
             <Box id="landing-map-box" style={{ alignItems: "center" }}>
               <GoogleMapsComp
