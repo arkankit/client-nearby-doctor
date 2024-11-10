@@ -9,7 +9,7 @@ import {
   Button,
   Typography,
   CircularProgress,
-  Link
+  Link,
 } from "@mui/material";
 import { LoadScript } from "@react-google-maps/api";
 import getDoctorsBySpeciality from "../Utility/getDoctorsBySpeciality";
@@ -210,15 +210,11 @@ function DoctorSearchForm({ addressOfUser }) {
         >
           *The search functionality has been disabled in Production as it is
           heavily data dependent and requires osrm docker images to be run on
-          cloud which woud require a paid commercial setup, however you can
-          watch our video demo by click the link below.
-        </Typography>
-        <Typography className="noto-sans-text">
-          Click
+          cloud which would require a paid commercial setup, however you can
+          watch our video demo
           <Link className="link-spacing" href="https://youtu.be/j8WYotfl5e4">
             here
           </Link>
-          to watch the fully functional demo.
         </Typography>
         {showLoadingIcon && (
           <CircularProgress size={80} style={{ margin: "0 45%" }} />
