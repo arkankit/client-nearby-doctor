@@ -24,6 +24,7 @@ function PlacesSearch({ setUpdatedAddress, userCurrentAddress }) {
       });
       if (response.data.user_address !== null) {
         setInput(response.data.user_address);
+        console.log("User address updated to latest as per db:", response.data.user_address);
         setButtonDisable(true);
         setTextLabel("");
         setResultsFetched(true);
