@@ -204,17 +204,14 @@ function DoctorSearchForm({ addressOfUser }) {
           </Button>
         )}
         <Typography
-          style={{ textAlign: "center", opacity: "50%" }}
+          style={{ textAlign: "center", opacity: "50%", width: "fit-content" }}
           variant="body2"
           className="noto-sans-text"
         >
           *The search functionality has been disabled in Production as it is
           heavily data dependent and requires osrm docker images to be run on
           cloud which would require a paid commercial setup, however you can
-          watch our video demo
-          <Link className="link-spacing" href="https://youtu.be/j8WYotfl5e4">
-            here
-          </Link>
+          watch our video demo <a href="https://youtu.be/j8WYotfl5e4">here.</a>
         </Typography>
         {showLoadingIcon && (
           <CircularProgress size={80} style={{ margin: "0 45%" }} />
