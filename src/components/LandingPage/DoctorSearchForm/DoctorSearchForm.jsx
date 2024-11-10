@@ -92,9 +92,12 @@ function DoctorSearchForm({ addressOfUser }) {
 
   async function getUserPlanCode() {
     try {
-      const response = await axios.get("https://server-nearby-doctor-production.up.railway.app/getDetails", {
-        withCredentials: true,
-      });
+      const response = await axios.get(
+        "https://server-nearby-doctor-production.up.railway.app/getDetails",
+        {
+          withCredentials: true,
+        }
+      );
       if (response.data !== null) {
         setUserPlanCode(response.data.user_plan_code);
       }
@@ -147,13 +150,13 @@ function DoctorSearchForm({ addressOfUser }) {
     <div>
       <Box
         className="signup-box-doc-search slide-in-fade"
-        style={{marginTop : "5em"}}
+        style={{ marginTop: "5em" }}
         component="form"
         sx={{ "& > :not(style)": { my: 2, mx: "auto", width: "35ch" } }}
         noValidate
         autoComplete="off"
       >
-        <h1 className="noto-sans-text" style={{marginBottom: "2em"}}>
+        <h1 className="noto-sans-text" style={{ marginBottom: "2em" }}>
           Search doctors filtered on speciality and distance
         </h1>
         <FormControl fullWidth>
@@ -194,10 +197,28 @@ function DoctorSearchForm({ addressOfUser }) {
             onClick={getFilteredDoctors}
             className="button"
             variant="contained"
+            disabled={true} // for production
           >
             Find nearby doctors
           </Button>
         )}
+        <Typography
+          style={{ textAlign: "center", opacity: "50%" }}
+          variant="body2"
+          className="noto-sans-text"
+        >
+          *The search functionality has been disabled in Production as it is
+          heavily data dependent and requires osrm docker images to be run on
+          cloud which woud require a paid commercial setup, however you can
+          watch our video demo by click the link below.
+        </Typography>
+        <Typography className="noto-sans-text">
+        Click 
+        <Link className=" link-spacing" href="https://youtu.be/j8WYotfl5e4">
+          here
+        </Link>
+        to watch the fully functional demo.
+      </Typography>
         {showLoadingIcon && (
           <CircularProgress size={80} style={{ margin: "0 45%" }} />
         )}
