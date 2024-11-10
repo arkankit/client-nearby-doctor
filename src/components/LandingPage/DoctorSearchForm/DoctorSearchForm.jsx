@@ -9,6 +9,7 @@ import {
   Button,
   Typography,
   CircularProgress,
+  Link
 } from "@mui/material";
 import { LoadScript } from "@react-google-maps/api";
 import getDoctorsBySpeciality from "../Utility/getDoctorsBySpeciality";
@@ -213,12 +214,12 @@ function DoctorSearchForm({ addressOfUser }) {
           watch our video demo by click the link below.
         </Typography>
         <Typography className="noto-sans-text">
-        Click 
-        <Link className=" link-spacing" href="https://youtu.be/j8WYotfl5e4">
-          here
-        </Link>
-        to watch the fully functional demo.
-      </Typography>
+          Click
+          <Link className="link-spacing" href="https://youtu.be/j8WYotfl5e4">
+            here
+          </Link>
+          to watch the fully functional demo.
+        </Typography>
         {showLoadingIcon && (
           <CircularProgress size={80} style={{ margin: "0 45%" }} />
         )}
